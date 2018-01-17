@@ -1,0 +1,16 @@
+[package]
+name = "ewasm-ecadd"
+version = "0.1.0"
+authors = ["cdetrio <cdetrio@gmail.com>"]
+
+[lib]
+path = "src/ecadd.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+bn = { git = "https://github.com/cdetrio/bn", branch = "for-wasm" }
+num = "0.1"
+
+[patch.crates-io]
+rustc-serialize = { git = "https://github.com/cdetrio/rustc-serialize", branch = "for-wasm" }
+num-bigint = { git = "https://github.com/ignatenkobrain/num-bigint", branch = "rand-v0.4" }
