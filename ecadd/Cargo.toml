@@ -8,7 +8,7 @@ path = "src/ecadd.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-bn = { git = "https://github.com/cdetrio/bn", branch = "for-wasm" }
+bn = { git = "https://github.com/ewasm/bn", branch = "for-wasm" }
 num = "0.1"
 
 [patch.crates-io]

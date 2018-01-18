@@ -5,7 +5,6 @@ extern "C" {
 }
 
 extern crate bn;
-extern crate num;
 
 use std::io::{self, Read};
 
