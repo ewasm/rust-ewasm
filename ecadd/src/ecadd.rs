@@ -1,6 +1,7 @@
 // bn128 point addition copied from https://github.com/ethereumjs/rustbn.js
 
 extern "C" {
+    fn callDataCopy(resultOffset: *const u8, dataOffset: u32, length: u32);
     fn storageStore(keyOffset: *const u32, valueOffset: *const u8);
 }
 
@@ -11,29 +12,29 @@ use std::io::{self, Read};
 pub struct Error(pub &'static str);
 
 impl From<&'static str> for Error {
-	fn from(val: &'static str) -> Self {
-		Error(val)
-	}
+    fn from(val: &'static str) -> Self {
+	Error(val)
+    }
 }
 
 fn read_point(reader: &mut io::Chain<&[u8], io::Repeat>) -> Result<::bn::G1, Error> {
-	use bn::{Fq, AffineG1, G1, Group};
+    use bn::{Fq, AffineG1, G1, Group};
 
-	let mut buf = [0u8; 32];
+    let mut buf = [0u8; 32];
 
-	reader.read_exact(&mut buf[..]).expect("reading from zero-extended memory cannot fail; qed");
-	let px = Fq::from_slice(&buf[0..32]).map_err(|_| Error::from("Invalid point x coordinate"))?;
+    reader.read_exact(&mut buf[..]).expect("reading from zero-extended memory cannot fail; qed");
+    let px = Fq::from_slice(&buf[0..32]).map_err(|_| Error::from("Invalid point x coordinate"))?;
 
-	reader.read_exact(&mut buf[..]).expect("reading from zero-extended memory cannot fail; qed");
-	let py = Fq::from_slice(&buf[0..32]).map_err(|_| Error::from("Invalid point y coordinate"))?;
+    reader.read_exact(&mut buf[..]).expect("reading from zero-extended memory cannot fail; qed");
+    let py = Fq::from_slice(&buf[0..32]).map_err(|_| Error::from("Invalid point y coordinate"))?;
 
-	Ok(
-		if px == Fq::zero() && py == Fq::zero() {
-			G1::zero()
-		} else {
-			AffineG1::new(px, py).map_err(|_| Error::from("Invalid curve point"))?.into()
-		}
-	)
+    Ok(
+	if px == Fq::zero() && py == Fq::zero() {
+	    G1::zero()
+	} else {
+	    AffineG1::new(px, py).map_err(|_| Error::from("Invalid curve point"))?.into()
+	}
+    )
 }
 
 #[no_mangle]
@@ -43,19 +44,25 @@ pub fn main() {
     // try input from https://github.com/ethereum/tests/blob/9741ed0bc1fb660c5ffefd751c24bc739104ce5e/src/GeneralStateTestsFiller/stZeroKnowledge/pointAddFiller.json#L179
     // output should be https://github.com/ethereum/tests/blob/9741ed0bc1fb660c5ffefd751c24bc739104ce5e/src/GeneralStateTestsFiller/stZeroKnowledge/pointAddFiller.json#L40
 
-    let input: [u8; 128] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2];
-	let mut padded_input = input.chain(io::repeat(0));
+    let input: [u8; 128] = [0;128];
+    let input_offset: u32 = 0;
+    let input_length: u32 = 128;
 
-	let mut padded_buf = [0u8; 128];
-	padded_input.read_exact(&mut padded_buf[..]).expect("reading from zero-extended memory cannot fail; qed");
+    let ptr_input = &input as *const u8;
 
-	let point1 = &padded_buf[0..64];
-	let point2 = &padded_buf[64..128];
+    unsafe {
+        callDataCopy(ptr_input, input_offset, input_length);
+    }
 
-	let mut point1_padded = point1.chain(io::repeat(0));
+    let mut padded_input = input.chain(io::repeat(0));
+
+    let mut padded_buf = [0u8; 128];
+    padded_input.read_exact(&mut padded_buf[..]).expect("reading from zero-extended memory cannot fail; qed");
+
+    let point1 = &padded_buf[0..64];
+    let point2 = &padded_buf[64..128];
+
+    let mut point1_padded = point1.chain(io::repeat(0));
     let mut point2_padded = point2.chain(io::repeat(0));
 
     let p1;
