@@ -1,0 +1,14 @@
+[package]
+name = "ewasm-parser"
+version = "0.1.0"
+authors = ["cdetrio <cdetrio@gmail.com>"]
+
+[lib]
+path = "src/parse-wasm.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+parity-wasm = "0.23.0"
+
+[patch.crates-io]
+parking_lot_core = { git = "https://github.com/cdetrio/parking_lot", branch = "rand-v4" }
