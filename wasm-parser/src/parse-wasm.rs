@@ -42,8 +42,10 @@ pub fn main() {
     }
 
     let sstore_key: [u32;8] = [0;8];
+    let mut sstore_value: [u32;8] = [0;8];
+    sstore_value[7] = func_body_count;
     let raw_sstore_key = &sstore_key as *const u32;
-    let raw_sstore_value = &func_body_count as *const u32;
+    let raw_sstore_value = &sstore_value as *const u32;
 
     unsafe {
        storageStore(raw_sstore_key, raw_sstore_value);
