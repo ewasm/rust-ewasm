@@ -2,7 +2,7 @@
 
 extern "C" {
     fn callDataCopy(resultOffset: *const u8, dataOffset: u32, length: u32);
-    fn storageStore(keyOffset: *const u32, valueOffset: *const u8);
+    fn eeiReturn(dataOffset: *const u8, length: u32);
 }
 
 extern crate bn;
@@ -82,14 +82,11 @@ pub fn main() {
                 sum.y().to_big_endian(&mut ecadd_output_buf[32..64]).expect("Cannot fail since 32..64 is 32-byte length");
             }
 
-            let sstore_key: [u32;8] = [0;8];
-            let raw_sstore_key = &sstore_key as *const u32;
-
             let raw_ecadd_result = &ecadd_output_buf as *const u8;
 
             unsafe {
                 // TODO: result is backwards (endianness)
-               storageStore(raw_sstore_key, raw_ecadd_result);
+                eeiReturn(raw_ecadd_result, input_length);
             }
             return;
         },
