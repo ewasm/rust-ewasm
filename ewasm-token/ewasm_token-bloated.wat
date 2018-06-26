@@ -1,189 +1,315 @@
 (module
   (type $t0 (func (param i32 i32 i32)))
   (type $t1 (func (result i32)))
-  (type $t2 (func (param i32 i32)))
-  (type $t3 (func))
-  (type $t4 (func (param i32 i32 i32) (result i32)))
-  (type $t5 (func (param f32 f32) (result f32)))
-  (type $t6 (func (param f64 f64) (result f64)))
-  (type $t7 (func (param i32 i32) (result i32)))
-  (type $t8 (func (param i64 i64) (result i64)))
-  (type $t9 (func (param i64 i64 i32) (result i64)))
-  (type $t10 (func (param i32 i64 i64 i64 i64)))
-  (type $t11 (func (param i32 i64 i64 i64 i64 i32)))
-  (type $t12 (func (param f32 i32) (result f32)))
-  (type $t13 (func (param f64 i32) (result f64)))
-  (type $t14 (func (param i64 i32) (result i64)))
-  (type $t15 (func (param i32 i64 i64 i32)))
-  (type $t16 (func (param i32) (result f32)))
-  (type $t17 (func (param i32) (result f64)))
-  (type $t18 (func (param i64) (result f64)))
-  (type $t19 (func (param i64 i64) (result f32)))
-  (type $t20 (func (param i64 i64) (result f64)))
-  (type $t21 (func (param f32) (result i32)))
-  (type $t22 (func (param f32) (result i64)))
-  (type $t23 (func (param i32 f32)))
-  (type $t24 (func (param f64) (result i32)))
-  (type $t25 (func (param f64) (result i64)))
-  (type $t26 (func (param i32 f64)))
+  (type $t2 (func (param i32)))
+  (type $t3 (func (param i32 i32)))
+  (type $t4 (func))
+  (type $t5 (func (param i32 i32 i32) (result i32)))
+  (type $t6 (func (param f32 f32) (result f32)))
+  (type $t7 (func (param f64 f64) (result f64)))
+  (type $t8 (func (param i32 i32) (result i32)))
+  (type $t9 (func (param i64 i64) (result i64)))
+  (type $t10 (func (param i64 i64 i32) (result i64)))
+  (type $t11 (func (param i32 i64 i64 i64 i64)))
+  (type $t12 (func (param i32 i64 i64 i64 i64 i32)))
+  (type $t13 (func (param f32 i32) (result f32)))
+  (type $t14 (func (param f64 i32) (result f64)))
+  (type $t15 (func (param i64 i32) (result i64)))
+  (type $t16 (func (param i32 i64 i64 i32)))
+  (type $t17 (func (param i32) (result f32)))
+  (type $t18 (func (param i32) (result f64)))
+  (type $t19 (func (param i64) (result f64)))
+  (type $t20 (func (param i64 i64) (result f32)))
+  (type $t21 (func (param i64 i64) (result f64)))
+  (type $t22 (func (param f32) (result i32)))
+  (type $t23 (func (param f32) (result i64)))
+  (type $t24 (func (param i32 f32)))
+  (type $t25 (func (param f64) (result i32)))
+  (type $t26 (func (param f64) (result i64)))
+  (type $t27 (func (param i32 f64)))
   (import "env" "callDataCopy" (func $env.callDataCopy (type $t0)))
   (import "env" "getCallDataSize" (func $env.getCallDataSize (type $t1)))
-  (import "env" "revert" (func $env.revert (type $t2)))
-  (import "env" "storageStore" (func $env.storageStore (type $t2)))
-  (func $main (export "main") (type $t3)
-    (local $l0 i32) (local $l1 i32) (local $l2 i32)
+  (import "env" "getCaller" (func $env.getCaller (type $t2)))
+  (import "env" "revert" (func $env.revert (type $t3)))
+  (import "env" "storageStore" (func $env.storageStore (type $t3)))
+  (func $main (export "main") (type $t4)
+    (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32)
     (i32.store offset=4
       (i32.const 0)
-      (tee_local $l2
+      (tee_local $l3
         (i32.sub
           (i32.load offset=4
             (i32.const 0))
-          (i32.const 64))))
-    (i32.store offset=4 align=1
-      (get_local $l2)
+          (i32.const 192))))
+    (i32.store align=1
+      (get_local $l3)
       (i32.const 436376473))
-    (i32.store offset=8 align=1
-      (get_local $l2)
+    (i32.store offset=4 align=1
+      (get_local $l3)
       (i32.const -1113639587))
     (block $B0
-      (br_if $B0
-        (i32.gt_u
-          (call $env.getCallDataSize)
-          (i32.const 3)))
-      (i32.store offset=16
-        (get_local $l2)
+      (block $B1
+        (br_if $B1
+          (i32.gt_u
+            (tee_local $l0
+              (call $env.getCallDataSize))
+            (i32.const 3)))
+        (i32.store offset=160
+          (get_local $l3)
+          (i32.const 0))
+        (call $env.revert
+          (i32.add
+            (get_local $l3)
+            (i32.const 160))
+          (i32.const 0))
+        (br $B0))
+      (i32.store offset=8
+        (get_local $l3)
+        (i32.const 0))
+      (call $env.callDataCopy
+        (i32.add
+          (get_local $l3)
+          (i32.const 8))
+        (i32.const 0)
+        (i32.const 4))
+      (i64.store align=4
+        (i32.add
+          (get_local $l3)
+          (i32.const 36))
+        (i64.const 0))
+      (i64.store align=4
+        (i32.add
+          (get_local $l3)
+          (i32.const 28))
+        (i64.const 0))
+      (i64.store align=4
+        (i32.add
+          (get_local $l3)
+          (i32.const 20))
+        (i64.const 0))
+      (i64.store offset=12 align=4
+        (get_local $l3)
+        (i64.const 0))
+      (set_local $l2
+        (i32.const 93))
+      (set_local $l1
+        (i32.const 1))
+      (block $B2
+        (block $B3
+          (loop $L4
+            (br_if $B3
+              (i32.ne
+                (i32.load8_u
+                  (i32.add
+                    (i32.add
+                      (i32.add
+                        (get_local $l3)
+                        (i32.const 8))
+                      (get_local $l1))
+                    (i32.const -1)))
+                (i32.and
+                  (get_local $l2)
+                  (i32.const 255))))
+            (block $B5
+              (br_if $B5
+                (i32.gt_u
+                  (get_local $l1)
+                  (i32.const 3)))
+              (set_local $l2
+                (i32.load8_u
+                  (i32.add
+                    (i32.add
+                      (get_local $l3)
+                      (i32.const 4))
+                    (get_local $l1))))
+              (set_local $l1
+                (i32.add
+                  (get_local $l1)
+                  (i32.const 1)))
+              (br $L4)))
+          (br_if $B2
+            (i32.ne
+              (get_local $l0)
+              (i32.const 32)))
+          (i32.store
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 44))
+              (i32.const 16))
+            (i32.const 0))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 44))
+              (i32.const 8))
+            (i64.const 0))
+          (i64.store offset=44 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (call $env.getCaller
+            (i32.add
+              (get_local $l3)
+              (i32.const 44)))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 64))
+              (i32.const 24))
+            (i64.const 0))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 64))
+              (i32.const 16))
+            (i64.const 0))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 64))
+              (i32.const 8))
+            (i64.const 0))
+          (i64.store offset=64 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (call $env.callDataCopy
+            (i32.add
+              (get_local $l3)
+              (i32.const 64))
+            (i32.const 4)
+            (i32.const 20))
+          (i64.store offset=96 align=4
+            (get_local $l3)
+            (i64.const 1090921693438))
+          (i64.store offset=104 align=4
+            (get_local $l3)
+            (i64.const 1090921693438))
+          (i64.store offset=112 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (i64.store offset=120 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (call $env.storageStore
+            (i32.add
+              (get_local $l3)
+              (i32.const 96))
+            (i32.add
+              (get_local $l3)
+              (i32.const 64)))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 128))
+              (i32.const 24))
+            (i64.const 0))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 128))
+              (i32.const 16))
+            (i64.const 0))
+          (i64.store align=4
+            (i32.add
+              (i32.add
+                (get_local $l3)
+                (i32.const 128))
+              (i32.const 8))
+            (i64.const 0))
+          (i64.store offset=128 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (call $env.callDataCopy
+            (i32.add
+              (get_local $l3)
+              (i32.const 128))
+            (i32.const 24)
+            (i32.const 8))
+          (i64.store offset=160 align=4
+            (get_local $l3)
+            (i64.const 1095216660735))
+          (i64.store offset=168 align=4
+            (get_local $l3)
+            (i64.const 1095216660735))
+          (i64.store offset=176 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (i64.store offset=184 align=4
+            (get_local $l3)
+            (i64.const 0))
+          (call $env.storageStore
+            (i32.add
+              (get_local $l3)
+              (i32.const 160))
+            (i32.add
+              (get_local $l3)
+              (i32.const 128)))
+          (br $B0))
+        (i64.store offset=160 align=1
+          (get_local $l3)
+          (i64.const 651061555525847048))
+        (set_local $l2
+          (i32.const 153))
+        (set_local $l1
+          (i32.const 1))
+        (loop $L6
+          (br_if $B0
+            (i32.ne
+              (i32.load8_u
+                (i32.add
+                  (i32.add
+                    (i32.add
+                      (get_local $l3)
+                      (i32.const 8))
+                    (get_local $l1))
+                  (i32.const -1)))
+              (i32.and
+                (get_local $l2)
+                (i32.const 255))))
+          (block $B7
+            (br_if $B7
+              (i32.gt_u
+                (get_local $l1)
+                (i32.const 3)))
+            (set_local $l2
+              (i32.load8_u
+                (i32.add
+                  (get_local $l3)
+                  (get_local $l1))))
+            (set_local $l1
+              (i32.add
+                (get_local $l1)
+                (i32.const 1)))
+            (br $L6)))
+        (call $env.storageStore
+          (i32.add
+            (get_local $l3)
+            (i32.const 12))
+          (i32.add
+            (get_local $l3)
+            (i32.const 160)))
+        (br $B0))
+      (i32.store offset=160
+        (get_local $l3)
         (i32.const 0))
       (call $env.revert
         (i32.add
-          (get_local $l2)
-          (i32.const 16))
+          (get_local $l3)
+          (i32.const 160))
         (i32.const 0)))
-    (i32.store offset=12
-      (get_local $l2)
-      (i32.const 0))
-    (call $env.callDataCopy
-      (i32.add
-        (get_local $l2)
-        (i32.const 12))
-      (i32.const 0)
-      (i32.const 4))
-    (i64.store align=4
-      (i32.add
-        (get_local $l2)
-        (i32.const 40))
-      (i64.const 0))
-    (i64.store align=4
-      (i32.add
-        (get_local $l2)
-        (i32.const 32))
-      (i64.const 0))
-    (i64.store align=4
-      (i32.add
-        (get_local $l2)
-        (i32.const 24))
-      (i64.const 0))
-    (i64.store offset=16 align=4
-      (get_local $l2)
-      (i64.const 0))
-    (i64.store offset=48 align=1
-      (get_local $l2)
-      (i64.const 144680345659310337))
-    (set_local $l1
-      (i32.const 93))
-    (set_local $l0
-      (i32.const 1))
-    (block $B1
-      (loop $L2
-        (br_if $B1
-          (i32.ne
-            (i32.load8_u
-              (i32.add
-                (i32.add
-                  (i32.add
-                    (get_local $l2)
-                    (i32.const 12))
-                  (get_local $l0))
-                (i32.const -1)))
-            (i32.and
-              (get_local $l1)
-              (i32.const 255))))
-        (block $B3
-          (br_if $B3
-            (i32.gt_u
-              (get_local $l0)
-              (i32.const 3)))
-          (set_local $l1
-            (i32.load8_u
-              (i32.add
-                (i32.add
-                  (get_local $l2)
-                  (i32.const 8))
-                (get_local $l0))))
-          (set_local $l0
-            (i32.add
-              (get_local $l0)
-              (i32.const 1)))
-          (br $L2)))
-      (call $env.storageStore
-        (i32.add
-          (get_local $l2)
-          (i32.const 16))
-        (i32.add
-          (get_local $l2)
-          (i32.const 48))))
-    (i64.store offset=56 align=1
-      (get_local $l2)
-      (i64.const 651061555525847048))
-    (set_local $l1
-      (i32.const 153))
-    (set_local $l0
-      (i32.const 1))
-    (block $B4
-      (loop $L5
-        (br_if $B4
-          (i32.ne
-            (i32.load8_u
-              (i32.add
-                (i32.add
-                  (i32.add
-                    (get_local $l2)
-                    (i32.const 12))
-                  (get_local $l0))
-                (i32.const -1)))
-            (i32.and
-              (get_local $l1)
-              (i32.const 255))))
-        (block $B6
-          (br_if $B6
-            (i32.gt_u
-              (get_local $l0)
-              (i32.const 3)))
-          (set_local $l1
-            (i32.load8_u
-              (i32.add
-                (i32.add
-                  (get_local $l2)
-                  (i32.const 4))
-                (get_local $l0))))
-          (set_local $l0
-            (i32.add
-              (get_local $l0)
-              (i32.const 1)))
-          (br $L5)))
-      (call $env.storageStore
-        (i32.add
-          (get_local $l2)
-          (i32.const 16))
-        (i32.add
-          (get_local $l2)
-          (i32.const 56))))
     (i32.store offset=4
       (i32.const 0)
       (i32.add
-        (get_local $l2)
-        (i32.const 64))))
-  (func $rust_eh_personality (export "rust_eh_personality") (type $t3))
-  (func $memcpy (export "memcpy") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+        (get_local $l3)
+        (i32.const 192))))
+  (func $rust_eh_personality (export "rust_eh_personality") (type $t4))
+  (func $memcpy (export "memcpy") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32)
     (block $B0
       (br_if $B0
@@ -210,7 +336,7 @@
               (get_local $p2)
               (i32.const -1))))))
     (get_local $p0))
-  (func $memmove (export "memmove") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $memmove (export "memmove") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32)
     (block $B0
       (block $B1
@@ -265,7 +391,7 @@
               (get_local $p2)
               (i32.const -1))))))
     (get_local $p0))
-  (func $memset (export "memset") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $memset (export "memset") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32)
     (block $B0
       (br_if $B0
@@ -287,7 +413,7 @@
               (get_local $p2)
               (i32.const -1))))))
     (get_local $p0))
-  (func $memcmp (export "memcmp") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $memcmp (export "memcmp") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32)
     (block $B0
       (block $B1
@@ -323,7 +449,7 @@
     (i32.sub
       (get_local $l0)
       (get_local $l1)))
-  (func $__subsf3 (export "__subsf3") (type $t5) (param $p0 f32) (param $p1 f32) (result f32)
+  (func $__subsf3 (export "__subsf3") (type $t6) (param $p0 f32) (param $p1 f32) (result f32)
     (f32.add
       (f32.reinterpret/i32
         (i32.xor
@@ -331,7 +457,7 @@
             (get_local $p1))
           (i32.const -2147483648)))
       (get_local $p0)))
-  (func $__subdf3 (export "__subdf3") (type $t6) (param $p0 f64) (param $p1 f64) (result f64)
+  (func $__subdf3 (export "__subdf3") (type $t7) (param $p0 f64) (param $p1 f64) (result f64)
     (f64.add
       (f64.reinterpret/i64
         (i64.xor
@@ -339,7 +465,7 @@
             (get_local $p1))
           (i64.const -9223372036854775808)))
       (get_local $p0)))
-  (func $__udivsi3 (export "__udivsi3") (type $t7) (param $p0 i32) (param $p1 i32) (result i32)
+  (func $__udivsi3 (export "__udivsi3") (type $t8) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32)
     (block $B0
       (br_if $B0
@@ -444,7 +570,7 @@
         (get_local $l3)))
     (unreachable)
     (unreachable))
-  (func $__umodsi3 (export "__umodsi3") (type $t7) (param $p0 i32) (param $p1 i32) (result i32)
+  (func $__umodsi3 (export "__umodsi3") (type $t8) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32)
     (block $B0
       (br_if $B0
@@ -552,7 +678,7 @@
             (get_local $p1)))))
     (unreachable)
     (unreachable))
-  (func $__udivmodsi4 (export "__udivmodsi4") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $__udivmodsi4 (export "__udivmodsi4") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32)
     (block $B0
       (br_if $B0
@@ -667,12 +793,12 @@
         (get_local $l3)))
     (unreachable)
     (unreachable))
-  (func $__udivdi3 (export "__udivdi3") (type $t8) (param $p0 i64) (param $p1 i64) (result i64)
+  (func $__udivdi3 (export "__udivdi3") (type $t9) (param $p0 i64) (param $p1 i64) (result i64)
     (call $__udivmoddi4
       (get_local $p0)
       (get_local $p1)
       (i32.const 0)))
-  (func $__udivmoddi4 (export "__udivmoddi4") (type $t9) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
+  (func $__udivmoddi4 (export "__udivmoddi4") (type $t10) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
     (local $l0 i32) (local $l1 i32) (local $l2 i64) (local $l3 i64) (local $l4 i64) (local $l5 i64)
     (block $B0
       (block $B1
@@ -1010,7 +1136,7 @@
       (unreachable)
       (unreachable))
     (get_local $l5))
-  (func $__umoddi3 (export "__umoddi3") (type $t8) (param $p0 i64) (param $p1 i64) (result i64)
+  (func $__umoddi3 (export "__umoddi3") (type $t9) (param $p0 i64) (param $p1 i64) (result i64)
     (local $l0 i32)
     (i32.store offset=4
       (i32.const 0)
@@ -1038,7 +1164,7 @@
         (get_local $l0)
         (i32.const 16)))
     (get_local $p0))
-  (func $__udivti3 (export "__udivti3") (type $t10) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
+  (func $__udivti3 (export "__udivti3") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
     (local $l0 i32)
     (i32.store offset=4
       (i32.const 0)
@@ -1073,7 +1199,7 @@
       (i32.add
         (get_local $l0)
         (i32.const 16))))
-  (func $__udivmodti4 (export "__udivmodti4") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64) (param $p5 i32)
+  (func $__udivmodti4 (export "__udivmodti4") (type $t12) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64) (param $p5 i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64) (local $l8 i64) (local $l9 i64) (local $l10 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -1519,7 +1645,7 @@
       (unreachable))
     (unreachable)
     (unreachable))
-  (func $__umodti3 (export "__umodti3") (type $t10) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
+  (func $__umodti3 (export "__umodti3") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
     (local $l0 i32) (local $l1 i32)
     (i32.store offset=4
       (i32.const 0)
@@ -1565,7 +1691,7 @@
       (i32.add
         (get_local $l1)
         (i32.const 32))))
-  (func $__addsf3 (export "__addsf3") (type $t5) (param $p0 f32) (param $p1 f32) (result f32)
+  (func $__addsf3 (export "__addsf3") (type $t6) (param $p0 f32) (param $p1 f32) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32)
     (set_local $l3
       (i32.and
@@ -1904,7 +2030,7 @@
             (get_local $l1)
             (get_local $l0)))))
     (get_local $p1))
-  (func $__adddf3 (export "__adddf3") (type $t6) (param $p0 f64) (param $p1 f64) (result f64)
+  (func $__adddf3 (export "__adddf3") (type $t7) (param $p0 f64) (param $p1 f64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i64) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64)
     (set_local $l5
       (i64.and
@@ -2260,7 +2386,7 @@
             (get_local $l3)
             (get_local $l2)))))
     (get_local $p1))
-  (func $__muldi3 (export "__muldi3") (type $t8) (param $p0 i64) (param $p1 i64) (result i64)
+  (func $__muldi3 (export "__muldi3") (type $t9) (param $p0 i64) (param $p1 i64) (result i64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32)
     (i64.or
       (i64.shl
@@ -2334,7 +2460,7 @@
           (i32.and
             (get_local $l2)
             (i32.const 65535))))))
-  (func $__multi3 (export "__multi3") (type $t10) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
+  (func $__multi3 (export "__multi3") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
     (local $l0 i64) (local $l1 i64) (local $l2 i64) (local $l3 i64) (local $l4 i64)
     (i64.store
       (get_local $p0)
@@ -2399,7 +2525,7 @@
             (i64.mul
               (get_local $l3)
               (get_local $l0)))))))
-  (func $__mulosi4 (export "__mulosi4") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $__mulosi4 (export "__mulosi4") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32)
     (i32.store
       (get_local $p2)
@@ -2508,7 +2634,7 @@
           (get_local $p0))))
     (unreachable)
     (unreachable))
-  (func $__mulodi4 (export "__mulodi4") (type $t9) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
+  (func $__mulodi4 (export "__mulodi4") (type $t10) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
     (local $l0 i64) (local $l1 i64) (local $l2 i64) (local $l3 i64)
     (i32.store
       (get_local $p2)
@@ -2618,7 +2744,7 @@
           (get_local $p0))))
     (unreachable)
     (unreachable))
-  (func $__muloti4 (export "__muloti4") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64) (param $p5 i32)
+  (func $__muloti4 (export "__muloti4") (type $t12) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64) (param $p5 i32)
     (local $l0 i32) (local $l1 i64) (local $l2 i64) (local $l3 i64) (local $l4 i64) (local $l5 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -2857,7 +2983,7 @@
       (return))
     (unreachable)
     (unreachable))
-  (func $__powisf2 (export "__powisf2") (type $t12) (param $p0 f32) (param $p1 i32) (result f32)
+  (func $__powisf2 (export "__powisf2") (type $t13) (param $p0 f32) (param $p1 i32) (result f32)
     (local $l0 i32) (local $l1 f32)
     (set_local $l1
       (select
@@ -2905,7 +3031,7 @@
       (i32.lt_s
         (get_local $p1)
         (i32.const 0))))
-  (func $__powidf2 (export "__powidf2") (type $t13) (param $p0 f64) (param $p1 i32) (result f64)
+  (func $__powidf2 (export "__powidf2") (type $t14) (param $p0 f64) (param $p1 i32) (result f64)
     (local $l0 i32) (local $l1 f64)
     (set_local $l1
       (select
@@ -2953,7 +3079,7 @@
       (i32.lt_s
         (get_local $p1)
         (i32.const 0))))
-  (func $__mulsf3 (export "__mulsf3") (type $t5) (param $p0 f32) (param $p1 f32) (result f32)
+  (func $__mulsf3 (export "__mulsf3") (type $t6) (param $p0 f32) (param $p1 f32) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32) (local $l7 i32) (local $l8 i32) (local $l9 i32) (local $l10 i64)
     (set_local $l5
       (i32.and
@@ -3233,7 +3359,7 @@
           (get_local $l9))))
     (f32.reinterpret/i32
       (get_local $l9)))
-  (func $__muldf3 (export "__muldf3") (type $t6) (param $p0 f64) (param $p1 f64) (result f64)
+  (func $__muldf3 (export "__muldf3") (type $t7) (param $p0 f64) (param $p1 f64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i64) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64) (local $l8 i64) (local $l9 i64) (local $l10 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -3538,7 +3664,7 @@
         (i32.const 16)))
     (f64.reinterpret/i64
       (get_local $l10)))
-  (func $__divsi3 (export "__divsi3") (type $t7) (param $p0 i32) (param $p1 i32) (result i32)
+  (func $__divsi3 (export "__divsi3") (type $t8) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l0 i32) (local $l1 i32)
     (block $B0
       (br_if $B0
@@ -3574,7 +3700,7 @@
           (get_local $p1))))
     (unreachable)
     (unreachable))
-  (func $__divdi3 (export "__divdi3") (type $t8) (param $p0 i64) (param $p1 i64) (result i64)
+  (func $__divdi3 (export "__divdi3") (type $t9) (param $p0 i64) (param $p1 i64) (result i64)
     (local $l0 i64) (local $l1 i64)
     (block $B0
       (br_if $B0
@@ -3611,7 +3737,7 @@
           (get_local $p1))))
     (unreachable)
     (unreachable))
-  (func $__divti3 (export "__divti3") (type $t10) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
+  (func $__divti3 (export "__divti3") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
     (local $l0 i32) (local $l1 i64) (local $l2 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -3708,7 +3834,7 @@
       (return))
     (unreachable)
     (unreachable))
-  (func $__modsi3 (export "__modsi3") (type $t7) (param $p0 i32) (param $p1 i32) (result i32)
+  (func $__modsi3 (export "__modsi3") (type $t8) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l0 i32)
     (block $B0
       (br_if $B0
@@ -3739,7 +3865,7 @@
           (get_local $p1))))
     (unreachable)
     (unreachable))
-  (func $__moddi3 (export "__moddi3") (type $t8) (param $p0 i64) (param $p1 i64) (result i64)
+  (func $__moddi3 (export "__moddi3") (type $t9) (param $p0 i64) (param $p1 i64) (result i64)
     (local $l0 i64)
     (block $B0
       (br_if $B0
@@ -3771,7 +3897,7 @@
           (get_local $p1))))
     (unreachable)
     (unreachable))
-  (func $__modti3 (export "__modti3") (type $t10) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
+  (func $__modti3 (export "__modti3") (type $t11) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i64) (param $p4 i64)
     (local $l0 i32) (local $l1 i64) (local $l2 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -3863,7 +3989,7 @@
       (return))
     (unreachable)
     (unreachable))
-  (func $__divmodsi4 (export "__divmodsi4") (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $__divmodsi4 (export "__divmodsi4") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l0 i32) (local $l1 i32)
     (block $B0
       (br_if $B0
@@ -3907,7 +4033,7 @@
         (get_local $l1)))
     (unreachable)
     (unreachable))
-  (func $__divmoddi4 (export "__divmoddi4") (type $t9) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
+  (func $__divmoddi4 (export "__divmoddi4") (type $t10) (param $p0 i64) (param $p1 i64) (param $p2 i32) (result i64)
     (local $l0 i64) (local $l1 i64)
     (block $B0
       (br_if $B0
@@ -3952,7 +4078,7 @@
         (get_local $l1)))
     (unreachable)
     (unreachable))
-  (func $__divsf3 (export "__divsf3") (type $t5) (param $p0 f32) (param $p1 f32) (result f32)
+  (func $__divsf3 (export "__divsf3") (type $t6) (param $p0 f32) (param $p1 f32) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32) (local $l7 i32) (local $l8 i32) (local $l9 i32) (local $l10 i64) (local $l11 i64)
     (set_local $l5
       (i32.and
@@ -4239,7 +4365,7 @@
           (get_local $l9))))
     (f32.reinterpret/i32
       (get_local $l9)))
-  (func $__divdf3 (export "__divdf3") (type $t6) (param $p0 f64) (param $p1 f64) (result f64)
+  (func $__divdf3 (export "__divdf3") (type $t7) (param $p0 f64) (param $p1 f64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64) (local $l8 i64) (local $l9 i64) (local $l10 i64) (local $l11 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -4583,7 +4709,7 @@
         (i32.const 16)))
     (f64.reinterpret/i64
       (get_local $l11)))
-  (func $__ashldi3 (export "__ashldi3") (type $t14) (param $p0 i64) (param $p1 i32) (result i64)
+  (func $__ashldi3 (export "__ashldi3") (type $t15) (param $p0 i64) (param $p1 i32) (result i64)
     (local $l0 i32)
     (block $B0
       (br_if $B0
@@ -4633,7 +4759,7 @@
             (get_local $p1)
             (i32.const 31))))
       (i64.const 32)))
-  (func $__ashlti3 (export "__ashlti3") (type $t15) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
+  (func $__ashlti3 (export "__ashlti3") (type $t16) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
     (local $l0 i64)
     (block $B0
       (block $B1
@@ -4683,7 +4809,7 @@
         (get_local $p0)
         (i32.const 8))
       (get_local $p2)))
-  (func $__ashrdi3 (export "__ashrdi3") (type $t14) (param $p0 i64) (param $p1 i32) (result i64)
+  (func $__ashrdi3 (export "__ashrdi3") (type $t15) (param $p0 i64) (param $p1 i32) (result i64)
     (local $l0 i32) (local $l1 i32)
     (block $B0
       (block $B1
@@ -4739,7 +4865,7 @@
           (i64.extend_u/i32
             (get_local $p1)))))
     (get_local $p0))
-  (func $__ashrti3 (export "__ashrti3") (type $t15) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
+  (func $__ashrti3 (export "__ashrti3") (type $t16) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
     (local $l0 i64)
     (block $B0
       (block $B1
@@ -4790,7 +4916,7 @@
         (get_local $p0)
         (i32.const 8))
       (get_local $p2)))
-  (func $__lshrdi3 (export "__lshrdi3") (type $t14) (param $p0 i64) (param $p1 i32) (result i64)
+  (func $__lshrdi3 (export "__lshrdi3") (type $t15) (param $p0 i64) (param $p1 i32) (result i64)
     (local $l0 i32) (local $l1 i32)
     (block $B0
       (block $B1
@@ -4847,7 +4973,7 @@
           (i64.extend_u/i32
             (get_local $p1)))))
     (get_local $p0))
-  (func $__lshrti3 (export "__lshrti3") (type $t15) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
+  (func $__lshrti3 (export "__lshrti3") (type $t16) (param $p0 i32) (param $p1 i64) (param $p2 i64) (param $p3 i32)
     (local $l0 i64)
     (block $B0
       (block $B1
@@ -4906,7 +5032,7 @@
         (get_local $p0)
         (i32.const 8))
       (get_local $p2)))
-  (func $__floatsisf (export "__floatsisf") (type $t16) (param $p0 i32) (result f32)
+  (func $__floatsisf (export "__floatsisf") (type $t17) (param $p0 i32) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32)
     (block $B0
       (block $B1
@@ -5022,7 +5148,7 @@
         (i32.and
           (get_local $l0)
           (i32.const 8388607)))))
-  (func $__floatsidf (export "__floatsidf") (type $t17) (param $p0 i32) (result f64)
+  (func $__floatsidf (export "__floatsidf") (type $t18) (param $p0 i32) (result f64)
     (local $l0 i32) (local $l1 i32)
     (block $B0
       (br_if $B0
@@ -5068,7 +5194,7 @@
                     (i32.const 63))))
               (i64.const 4503599627370495))))))
     (f64.const 0x0p+0 (;=0;)))
-  (func $__floatdidf (export "__floatdidf") (type $t18) (param $p0 i64) (result f64)
+  (func $__floatdidf (export "__floatdidf") (type $t19) (param $p0 i64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64) (local $l4 i64)
     (block $B0
       (block $B1
@@ -5191,7 +5317,7 @@
         (i64.and
           (get_local $l3)
           (i64.const 4503599627370495)))))
-  (func $__floattisf (export "__floattisf") (type $t19) (param $p0 i64) (param $p1 i64) (result f32)
+  (func $__floattisf (export "__floattisf") (type $t20) (param $p0 i64) (param $p1 i64) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64) (local $l5 i64) (local $l6 f32)
     (i32.store offset=4
       (i32.const 0)
@@ -5411,7 +5537,7 @@
         (get_local $l3)
         (i32.const 48)))
     (get_local $l6))
-  (func $__floattidf (export "__floattidf") (type $t20) (param $p0 i64) (param $p1 i64) (result f64)
+  (func $__floattidf (export "__floattidf") (type $t21) (param $p0 i64) (param $p1 i64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64) (local $l5 i64) (local $l6 f64)
     (i32.store offset=4
       (i32.const 0)
@@ -5628,7 +5754,7 @@
         (get_local $l3)
         (i32.const 48)))
     (get_local $l6))
-  (func $__floatunsisf (export "__floatunsisf") (type $t16) (param $p0 i32) (result f32)
+  (func $__floatunsisf (export "__floatunsisf") (type $t17) (param $p0 i32) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32)
     (block $B0
       (block $B1
@@ -5732,7 +5858,7 @@
         (i32.and
           (get_local $p0)
           (i32.const 8388607)))))
-  (func $__floatunsidf (export "__floatunsidf") (type $t17) (param $p0 i32) (result f64)
+  (func $__floatunsidf (export "__floatunsidf") (type $t18) (param $p0 i32) (result f64)
     (local $l0 i32)
     (block $B0
       (br_if $B0
@@ -5763,7 +5889,7 @@
                     (i32.const 63))))
               (i64.const 4503599627370495))))))
     (f64.const 0x0p+0 (;=0;)))
-  (func $__floatundidf (export "__floatundidf") (type $t18) (param $p0 i64) (result f64)
+  (func $__floatundidf (export "__floatundidf") (type $t19) (param $p0 i64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64)
     (block $B0
       (block $B1
@@ -5874,7 +6000,7 @@
         (i64.and
           (get_local $p0)
           (i64.const 4503599627370495)))))
-  (func $__floatuntisf (export "__floatuntisf") (type $t19) (param $p0 i64) (param $p1 i64) (result f32)
+  (func $__floatuntisf (export "__floatuntisf") (type $t20) (param $p0 i64) (param $p1 i64) (result f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64) (local $l5 f32)
     (i32.store offset=4
       (i32.const 0)
@@ -6063,7 +6189,7 @@
         (get_local $l3)
         (i32.const 48)))
     (get_local $l5))
-  (func $__floatuntidf (export "__floatuntidf") (type $t20) (param $p0 i64) (param $p1 i64) (result f64)
+  (func $__floatuntidf (export "__floatuntidf") (type $t21) (param $p0 i64) (param $p1 i64) (result f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64) (local $l5 f64)
     (i32.store offset=4
       (i32.const 0)
@@ -6252,7 +6378,7 @@
         (get_local $l3)
         (i32.const 48)))
     (get_local $l5))
-  (func $__fixsfsi (export "__fixsfsi") (type $t21) (param $p0 f32) (result i32)
+  (func $__fixsfsi (export "__fixsfsi") (type $t22) (param $p0 f32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32)
     (set_local $l3
       (i32.const 0))
@@ -6322,7 +6448,7 @@
       (i32.gt_s
         (get_local $l0)
         (i32.const -1))))
-  (func $__fixsfdi (export "__fixsfdi") (type $t22) (param $p0 f32) (result i64)
+  (func $__fixsfdi (export "__fixsfdi") (type $t23) (param $p0 f32) (result i64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64)
     (set_local $l4
       (i64.const 0))
@@ -6396,7 +6522,7 @@
       (i32.gt_s
         (get_local $l0)
         (i32.const -1))))
-  (func $__fixsfti (export "__fixsfti") (type $t23) (param $p0 i32) (param $p1 f32)
+  (func $__fixsfti (export "__fixsfti") (type $t24) (param $p0 i32) (param $p1 f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i64) (local $l6 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -6530,7 +6656,7 @@
       (i32.add
         (get_local $l4)
         (i32.const 16))))
-  (func $__fixdfsi (export "__fixdfsi") (type $t24) (param $p0 f64) (result i32)
+  (func $__fixdfsi (export "__fixdfsi") (type $t25) (param $p0 f64) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i64) (local $l3 i64)
     (set_local $l1
       (i32.const 0))
@@ -6584,7 +6710,7 @@
       (i64.gt_s
         (get_local $l2)
         (i64.const -1))))
-  (func $__fixdfdi (export "__fixdfdi") (type $t25) (param $p0 f64) (result i64)
+  (func $__fixdfdi (export "__fixdfdi") (type $t26) (param $p0 f64) (result i64)
     (local $l0 i32) (local $l1 i64) (local $l2 i64) (local $l3 i64)
     (set_local $l3
       (i64.const 0))
@@ -6655,7 +6781,7 @@
       (i64.gt_s
         (get_local $l1)
         (i64.const -1))))
-  (func $__fixdfti (export "__fixdfti") (type $t26) (param $p0 i32) (param $p1 f64)
+  (func $__fixdfti (export "__fixdfti") (type $t27) (param $p0 i32) (param $p1 f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -6789,7 +6915,7 @@
       (i32.add
         (get_local $l2)
         (i32.const 16))))
-  (func $__fixunssfsi (export "__fixunssfsi") (type $t21) (param $p0 f32) (result i32)
+  (func $__fixunssfsi (export "__fixunssfsi") (type $t22) (param $p0 f32) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32)
     (set_local $l2
       (i32.const 0))
@@ -6852,7 +6978,7 @@
               (i32.const 10))
             (i32.const 31)))))
     (get_local $l2))
-  (func $__fixunssfdi (export "__fixunssfdi") (type $t22) (param $p0 f32) (result i64)
+  (func $__fixunssfdi (export "__fixunssfdi") (type $t23) (param $p0 f32) (result i64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64)
     (set_local $l3
       (i64.const 0))
@@ -6919,7 +7045,7 @@
                 (i32.const 42))
               (i32.const 63))))))
     (get_local $l3))
-  (func $__fixunssfti (export "__fixunssfti") (type $t23) (param $p0 i32) (param $p1 f32)
+  (func $__fixunssfti (export "__fixunssfti") (type $t24) (param $p0 i32) (param $p1 f32)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i64) (local $l5 i64)
     (i32.store offset=4
       (i32.const 0)
@@ -7020,7 +7146,7 @@
       (i32.add
         (get_local $l3)
         (i32.const 16))))
-  (func $__fixunsdfsi (export "__fixunsdfsi") (type $t24) (param $p0 f64) (result i32)
+  (func $__fixunsdfsi (export "__fixunsdfsi") (type $t25) (param $p0 f64) (result i32)
     (local $l0 i32) (local $l1 i32) (local $l2 i64) (local $l3 i64)
     (set_local $l1
       (i32.const 0))
@@ -7070,7 +7196,7 @@
                 (get_local $l3))
               (i64.const 63))))))
     (get_local $l1))
-  (func $__fixunsdfdi (export "__fixunsdfdi") (type $t25) (param $p0 f64) (result i64)
+  (func $__fixunsdfdi (export "__fixunsdfdi") (type $t26) (param $p0 f64) (result i64)
     (local $l0 i32) (local $l1 i64) (local $l2 i64) (local $l3 i64)
     (set_local $l3
       (i64.const 0))
@@ -7134,7 +7260,7 @@
               (i64.const 13))
             (i64.const 63)))))
     (get_local $l3))
-  (func $__fixunsdfti (export "__fixunsdfti") (type $t26) (param $p0 i32) (param $p1 f64)
+  (func $__fixunsdfti (export "__fixunsdfti") (type $t27) (param $p0 i32) (param $p1 f64)
     (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i64) (local $l4 i64) (local $l5 i64)
     (i32.store offset=4
       (i32.const 0)

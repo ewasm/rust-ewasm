@@ -5,7 +5,7 @@ extern "C" {
     fn callDataCopy(resultOffset: *const u8, dataOffset: u32, length: u32);
     fn storageStore(keyOffset: *const u32, valueOffset: *const u8);
     //fn getAddress(offset: *const u32);
-    fn getCaller(offset: *const u32);
+    fn getCaller(offset: *const u8);
     fn revert(dataOffset: *const u32, length: u32);
 }
 
@@ -29,6 +29,7 @@ pub fn main() {
         unsafe {
             revert(revert_data_offset_ptr, 0);
         }
+        return;
     }
 
     let calldata_function_selector: [u8;4] = [0;4];
@@ -51,10 +52,54 @@ pub fn main() {
     let raw_transfer_test_bytes = &transfer_test_bytes as *const u8;
 
     if calldata_function_selector == do_transfer_signature {
+        if data_size != 32 {
+            let revert_data_offset: [u32;1] = [0;1];
+            let revert_data_offset_ptr = &revert_data_offset as *const u32;
+            unsafe {
+                revert(revert_data_offset_ptr, 0);
+            }
+            return;
+        }
+
+        let caller_address: [u8;20] = [0;20];
+        let caller_address_ptr = &caller_address as *const u8;
+        unsafe {
+            getCaller(caller_address_ptr);
+        }
+
+        // allocate 256 bits of memory because storageStore will read the whole 256 bits
+        let recipient: [u8;32] = [0;32];
+        let recipient_offset: u32 = 4;
+        let recipient_length: u32 = 20;
+        let recipient_ptr = &recipient as *const u8;
+        unsafe {
+            callDataCopy(recipient_ptr, recipient_offset, recipient_length);
+        }
+
+        let recipient_test_key: [u32; 8] = [254, 254, 254, 254, 0, 0, 0, 0];
+        let recipient_test_key_ptr = &recipient_test_key as *const u32;
         // write to sstore for quick test
         unsafe {
-            storageStore(raw_sstore_key, raw_transfer_test_bytes);
+            storageStore(recipient_test_key_ptr, recipient_ptr);
         }
+
+        // allocate 256 bits of memory because storageStore will read the whole 256 bits
+        let value: [u8;32] = [0;32];
+        let value_offset: u32 = 24;
+        let value_length: u32 = 8;
+        let value_ptr = &value as *const u8;
+        unsafe {
+            callDataCopy(value_ptr, value_offset, value_length);
+        }
+
+        let value_test_key: [u32; 8] = [255, 255, 255, 255, 0, 0, 0, 0];
+        let value_test_key_ptr = &value_test_key as *const u32;
+        // write to sstore for quick test
+        unsafe {
+            storageStore(value_test_key_ptr, value_ptr);
+        }
+        
+        return;
     }
 
     let balance_test_bytes: [u8; 8] = [8, 8, 8, 8, 9, 9, 9, 9];
