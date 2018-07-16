@@ -1,0 +1,17 @@
+[package]
+name = "ewasm-ecpairing"
+version = "0.1.0"
+authors = ["cdetrio <cdetrio@ethereum.org>"]
+
+[lib]
+path = "src/ecpairing.rs"
+crate-type = ["cdylib"]
+
+
+[dependencies]
+bn = { git = "https://github.com/ewasm/bn", branch = "for-wasm" }
+num = "0.1"
+
+[patch.crates-io]
+rustc-serialize = { git = "https://github.com/cdetrio/rustc-serialize", branch = "for-wasm" }
+num-bigint = { git = "https://github.com/ignatenkobrain/num-bigint", branch = "rand-v0.4" }
