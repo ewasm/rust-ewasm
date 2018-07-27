@@ -1,10 +1,5 @@
 // bn128 point addition copied from https://github.com/ethereumjs/rustbn.js
-
-extern "C" {
-    fn callDataCopy(resultOffset: *const u8, dataOffset: u32, length: u32);
-    fn eeiReturn(dataOffset: *const u8, length: u32);
-}
-
+extern crate ewasm_api;
 extern crate bn;
 
 use std::io::{self, Read};
@@ -44,17 +39,12 @@ pub fn main() {
     // try input from https://github.com/ethereum/tests/blob/9741ed0bc1fb660c5ffefd751c24bc739104ce5e/src/GeneralStateTestsFiller/stZeroKnowledge/pointAddFiller.json#L179
     // output should be https://github.com/ethereum/tests/blob/9741ed0bc1fb660c5ffefd751c24bc739104ce5e/src/GeneralStateTestsFiller/stZeroKnowledge/pointAddFiller.json#L40
 
-    let input: [u8; 128] = [0;128];
-    let input_offset: u32 = 0;
-    let input_length: u32 = 128;
+    let input_offset: usize = 0;
+    let input_length: usize = 128;
 
-    let ptr_input = &input as *const u8;
+    let ewasm_input:Vec<u8> = ewasm_api::calldata_copy(input_offset, input_length);    
 
-    unsafe {
-        callDataCopy(ptr_input, input_offset, input_length);
-    }
-
-    let mut padded_input = input.chain(io::repeat(0));
+    let mut padded_input = ewasm_input.chain(io::repeat(0));
 
     let mut padded_buf = [0u8; 128];
     padded_input.read_exact(&mut padded_buf[..]).expect("reading from zero-extended memory cannot fail; qed");
@@ -82,12 +72,11 @@ pub fn main() {
                 sum.y().to_big_endian(&mut ecadd_output_buf[32..64]).expect("Cannot fail since 32..64 is 32-byte length");
             }
 
-            let raw_ecadd_result = &ecadd_output_buf as *const u8;
 
-            unsafe {
-                // TODO: result is backwards (endianness)
-                eeiReturn(raw_ecadd_result, input_length);
-            }
+            let vec_buf = ecadd_output_buf.to_vec();
+
+            ewasm_api::finish_data(vec_buf);
+
             return;
         },
         Err(_) => { return; }

@@ -10,6 +10,7 @@ crate-type = ["cdylib"]
 [dependencies]
 bn = { git = "https://github.com/ewasm/bn", branch = "for-wasm" }
 num = "0.1"
+ewasm_api = { git = "https://github.com/ewasm/ewasm-rust-api", branch = "remove-never-return" }
 
 [patch.crates-io]
 rustc-serialize = { git = "https://github.com/cdetrio/rustc-serialize", branch = "for-wasm" }
