@@ -1,0 +1,22 @@
+wrc20Challenge:
+  env:
+    currentCoinbase: 2adc25665018aa1fe0e6bc666dac8fc2697ff9ba
+    currentDifficulty: '0x020000'
+    currentGasLimit: '89128960'
+    currentNumber: '1'
+    currentTimestamp: '1000'
+    previousHash: 5e20a0453cecd065ea59c37ac63e079ee08998b6045136a8ce6635c7912ec0b6
+  pre:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+      balance: '100000000000'
+      code: ''
+      nonce: '0x4'
+      storage: {}
+    # WRC20 contract, compiled using Rust
+    a000000000000000000000000000000000000000:
+      balance: '0'
+      nonce: ''
+      storage: {
+        # Hardcoded token balances: as specified in the prompt
+        0xdeadbeef00000000000000000000000000000000: 1000000,
+      }
