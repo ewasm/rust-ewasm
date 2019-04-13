@@ -1,0 +1,14 @@
+[package]
+name = "ewasm_token"
+version = "0.1.0"
+authors = ["cdetrio <cdetrio@gmail.com>", "hugo-dc <jhugodc@gmail.com>"]
+
+[lib]
+path = "src/ewasm_token.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+ewasm_api = { git = "https://github.com/ewasm/ewasm-rust-api", branch = "master" }
+bigint = "4.4.1"
+[patch.crates-io]
+rustc-serialize = { git = "https://github.com/cdetrio/rustc-serialize", branch = "for-wasm" }
